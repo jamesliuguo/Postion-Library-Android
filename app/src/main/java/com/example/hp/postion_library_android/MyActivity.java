@@ -16,6 +16,7 @@ import com.radiusnetworks.ibeacon.Region;
 
 import java.util.Collection;
 
+//开发测试使用的临时Activity
 public class MyActivity extends Activity  implements IBeaconConsumer{
 
     private final String TAG = "MyActivity";
@@ -29,7 +30,6 @@ public class MyActivity extends Activity  implements IBeaconConsumer{
         iBeaconManager.bind(this);
 
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
