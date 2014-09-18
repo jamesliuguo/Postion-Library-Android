@@ -2,6 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.hp.postion_library_android" >
 
+    <uses-sdk
+        android:minSdkVersion="18"
+        android:targetSdkVersion="18" />
+
+    <uses-permission android:name="android.permission.INTERNET"  />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -16,6 +24,26 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service
+            android:enabled="true"
+            android:exported="true"
+            android:isolatedProcess="false"
+            android:label="iBeacon"
+            android:name="com.radiusnetworks.ibeacon.service.IBeaconService">
+        </service>
+
+        <service
+            android:enabled="true"
+            android:exported="true"
+            android:isolatedProcess="false"
+            android:name="com.radiusnetworks.ibeacon.IBeaconIntentProcessor">
+            <meta-data android:name="background" android:value="true" />
+            <intent-filter  android:priority="1" >
+                <action android:name="com.radiusnetwork.demo.DID_RANGING" />
+                <action android:name="com.radiusnetwork.demo.DID_MONITORING" />
+            </intent-filter>
+        </service>
 
         <service
             android:name=".YCserve.YCLocationService"
