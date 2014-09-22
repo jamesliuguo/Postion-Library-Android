@@ -1,25 +1,34 @@
 package com.example.hp.postion_library_android;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.hp.postion_library_android.YCserve.YCLocationService;
 import com.example.hp.postion_library_android.YCuser.YCConsumer;
 
 //开发测试使用的临时Activity
 public class MyActivity extends Activity {
 
     private final String TAG = "MyActivity";
-    private boolean debuginfo = true;
-
+    private boolean debuginfo = false;
+    private Intent intent=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my);
+        intent=new Intent(getApplicationContext(), YCLocationService.class);
+        startService(intent);
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        stopService(intent);
     }
 
     @Override
