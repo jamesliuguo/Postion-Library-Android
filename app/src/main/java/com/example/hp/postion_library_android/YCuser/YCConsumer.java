@@ -17,10 +17,10 @@ public interface YCConsumer
 
 //    在YCLoactionmanager中调用，来 取消YCconsumer和YCLocationService的绑定
 
-    public void bundService(Intent intent, ServiceConnection connection, int mode);
+    public boolean bindService(Intent intent, ServiceConnection connection, int mode);
 
     //    在YCLoactionmanager中调用，来绑定YCconsumer和YCLocationService
-    public void unBundService(ServiceConnection connection);
-
+    public void unbindService(ServiceConnection connection);
 
 }
+

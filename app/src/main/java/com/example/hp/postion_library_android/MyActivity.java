@@ -10,6 +10,7 @@ import android.view.MenuItem;
 
 import com.example.hp.postion_library_android.YCserve.YCLocationService;
 import com.example.hp.postion_library_android.YCuser.YCConsumer;
+import com.radiusnetworks.ibeacon.IBeaconConsumer;
 
 //开发测试使用的临时Activity
 public class MyActivity extends Activity {
@@ -56,5 +57,6 @@ public class MyActivity extends Activity {
             Log.d(tag,info);
         }
     }
+
 
 }
