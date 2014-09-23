@@ -1,8 +1,11 @@
 package com.example.hp.postion_library_android;
 
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;
 import android.view.Menu;
@@ -10,26 +13,30 @@ import android.view.MenuItem;
 
 import com.example.hp.postion_library_android.YCserve.YCLocationService;
 import com.example.hp.postion_library_android.YCuser.YCConsumer;
+import com.example.hp.postion_library_android.YCuser.YCLocation;
+import com.example.hp.postion_library_android.YCuser.YCLocationListener;
+import com.example.hp.postion_library_android.YCuser.YCLocationManager;
 import com.radiusnetworks.ibeacon.IBeaconConsumer;
 
 //开发测试使用的临时Activity
-public class MyActivity extends Activity {
+public class MyActivity extends Activity implements YCConsumer{
 
     private final String TAG = "MyActivity";
-    private boolean debuginfo = false;
+    private boolean debuginfo = true;
     private Intent intent=null;
+    private YCLocationManager ycLocationManager =YCLocationManager.getInstanceForApplication(this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my);
-        intent=new Intent(getApplicationContext(), YCLocationService.class);
-        startService(intent);
+        debuglog(TAG,"activity creat");
+        ycLocationManager.bind(this);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        stopService(intent);
+        ycLocationManager.unbind(this);
     }
 
     @Override
@@ -59,4 +66,17 @@ public class MyActivity extends Activity {
     }
 
 
+    @Override
+    public void onServiceConnect()
+    {
+          ycLocationManager.startpostion();
+          ycLocationManager.setlocationlistener(new YCLocationListener()
+          {
+              @Override
+              public void YCGetLocation(YCLocation location)
+              {
+                  debuglog(TAG,"get location:x="+location.getCoordinate().x+" y="+location.getCoordinate().y);
+              }
+          });
+    }
 }

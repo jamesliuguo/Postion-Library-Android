@@ -9,6 +9,7 @@ import android.os.Message;
 import android.os.Messenger;
 import android.util.Log;
 
+import com.example.hp.postion_library_android.YCserve.YCAddBinder;
 import com.example.hp.postion_library_android.YCserve.YCLocationService;
 
 import java.util.HashMap;
@@ -53,7 +54,7 @@ public class YCLocationManager
                 debuglog(TAG, "this YCConsumer is not bound . binding" + consumer);
                 consumers.put(consumer, new ConsumerInfo());
                 Intent intent = new Intent(consumer.getApplicationContext(), YCLocationService.class);
-                consumer.bundService(intent, YCLocationServiceConnection, Context.BIND_AUTO_CREATE);
+                consumer.bindService(intent, YCLocationServiceConnection, Context.BIND_AUTO_CREATE);
                 debuglog(TAG, "YCConsumer that has been bound is now:" + consumers.size());
             }
         }
@@ -67,7 +68,7 @@ public class YCLocationManager
             if (consumers.keySet().contains(consumer))
             {
                 debuglog(TAG, "this YCConsumer is unbinding:" + consumer);
-                consumer.unBundService(YCLocationServiceConnection);
+                consumer.unbindService(YCLocationServiceConnection);
                 consumers.remove(consumer);
                 if (consumers.size() == 0)
                 {
@@ -132,9 +133,10 @@ public class YCLocationManager
         public void onServiceConnected(ComponentName componentName, IBinder iBinder)
         {
             debuglog(TAG, "we have a connection to the YCLocationService now");
-            YCLocationServiceMessager = new Messenger(iBinder);  //建立和YCLocationService的绑定后，初始化与其信息交互的信差
-
-            //将consumers中当前consumer链接状态置真
+           // YCLocationServiceMessager = new Messenger(iBinder);  //建立和YCLocationService的绑定后，初始化与其信息交互的信差
+                  //将consumers中当前consumer链接状态置真
+            YCAddBinder aa = (YCAddBinder)iBinder;
+            Log.d(TAG,"location"+aa.getLocation().getAccuracy()+"");
             synchronized (consumers)
             {
                 Iterator<YCConsumer> consumerIterator = consumers.keySet().iterator();
@@ -165,6 +167,12 @@ public class YCLocationManager
     private class ConsumerInfo
     {
         public boolean isConnected = false;
+    }
+
+    //当调用getInstanceForApplication 看是否返回一个YCLocationManager的实例
+    public String getString_test()
+    {
+        return "this is YCLocationManager test that get a YCLocationManager";
     }
 }
 

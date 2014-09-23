@@ -26,6 +26,12 @@
         </activity>
 
         <service
+            android:name=".YCserve.YCLocationService"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
+
+        <service
             android:enabled="true"
             android:exported="true"
             android:isolatedProcess="false"
@@ -45,11 +51,6 @@
             </intent-filter>
         </service>
 
-        <service
-            android:name=".YCserve.YCLocationService"
-            android:enabled="true"
-            android:exported="true" >
-        </service>
     </application>
 
 </manifest>

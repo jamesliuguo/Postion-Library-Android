@@ -4,11 +4,13 @@ import android.app.Service;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.os.Binder;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.RemoteException;
 import android.util.Log;
 
+import com.example.hp.postion_library_android.YCuser.YCLocation;
 import com.radiusnetworks.ibeacon.IBeacon;
 import com.radiusnetworks.ibeacon.IBeaconConsumer;
 import com.radiusnetworks.ibeacon.IBeaconManager;
@@ -21,6 +23,8 @@ import java.util.Collection;
 public class YCLocationService extends Service implements IBeaconConsumer {
     private static final String TAG = "YCLocationService";
     private boolean debuginfo = true;
+    private YCLocation ycLocation_current = new YCLocation();
+    private IBinder iBinder =new YcBinder();
 
     public static final int MSG_START_LOCATION = 1;
     public static final int MSG_STOP_LOCATION = 2;
@@ -30,14 +34,15 @@ public class YCLocationService extends Service implements IBeaconConsumer {
     @Override
     public IBinder onBind(Intent intent) {
         // TODO: Return the communication channel to the service.
-        throw new UnsupportedOperationException("Not yet implemented");
+      //  throw new UnsupportedOperationException("Not yet implemented");
+        return iBinder;
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        debuglog(TAG, "YCloactionService onCreate");
         iBeaconManager.bind(this);
+        debuglog(TAG, "YCloactionService onCreate");
     }
 
     @Override
@@ -66,6 +71,16 @@ public class YCLocationService extends Service implements IBeaconConsumer {
     private void debuglog(String tag, String info) {
         if (debuginfo)
             Log.d(TAG, info);
+    }
+
+    private class YcBinder extends Binder implements YCAddBinder
+    {
+
+        @Override
+        public YCLocation getLocation()
+        {
+            return ycLocation_current;
+        }
     }
 
 }
