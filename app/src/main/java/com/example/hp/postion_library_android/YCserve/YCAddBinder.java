@@ -8,4 +8,6 @@ import com.example.hp.postion_library_android.YCuser.YCLocation;
 public interface YCAddBinder
 {
     public YCLocation getLocation();
+    public boolean stopLocation();
+    public boolean startLocation();
 }

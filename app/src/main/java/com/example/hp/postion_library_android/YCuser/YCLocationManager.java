@@ -30,9 +30,9 @@ public class YCLocationManager
     private Context context;                                        //本类的上下文
     protected static YCLocationManager ycLocationManager = null;    //本类对象的实例引用（单例方法，整个项只有一个类的实例对象）
 
-    private YCLocationListener mylistener;                          //回调接口，用来向使用者传递坐标（YCLocation）
+    private YCLocationListener mylistener = null;                          //回调接口，用来向使用者传递坐标（YCLocation）
 
-    private Messenger YCLocationServiceMessager = null;         //定义和YCLocationService信息交互的信差
+    private YCAddBinder ycAddBinder;
     private Map<YCConsumer, ConsumerInfo> consumers = new HashMap<YCConsumer, ConsumerInfo>();    //存储使用定位服务的YCConsumer实例（Activity、Service）
 
     //类的初始化
@@ -70,10 +70,6 @@ public class YCLocationManager
                 debuglog(TAG, "this YCConsumer is unbinding:" + consumer);
                 consumer.unbindService(YCLocationServiceConnection);
                 consumers.remove(consumer);
-                if (consumers.size() == 0)
-                {
-                    YCLocationServiceMessager = null;
-                }
             } else
             {
                 debuglog(TAG, "this consumer is not bound to :" + consumer);
@@ -86,25 +82,29 @@ public class YCLocationManager
     {
         synchronized (consumer)
         {
-            return consumers.keySet().contains(consumer) && (YCLocationServiceMessager != null);
+            return consumers.keySet().contains(consumer) ;
         }
     }
 
     public void setlocationlistener(YCLocationListener listener)
     {
-        mylistener = listener;
+        this.mylistener = listener;
     }
 
+    public void sendtouser(YCLocation location)
+    {
+        mylistener.YCGetLocation(location);
+    }
     //开始更新定位坐标
     public void startpostion()
     {
-
+        ycAddBinder.startLocation();
     }
 
     //停止定位坐标更新
     public void stoppostion()
     {
-
+           ycAddBinder.stopLocation();
     }
 
     //输出调试信息
@@ -133,16 +133,14 @@ public class YCLocationManager
         public void onServiceConnected(ComponentName componentName, IBinder iBinder)
         {
             debuglog(TAG, "we have a connection to the YCLocationService now");
-           // YCLocationServiceMessager = new Messenger(iBinder);  //建立和YCLocationService的绑定后，初始化与其信息交互的信差
-                  //将consumers中当前consumer链接状态置真
-            YCAddBinder aa = (YCAddBinder)iBinder;
-            Log.d(TAG,"location"+aa.getLocation().getAccuracy()+"");
+            ycAddBinder = (YCAddBinder)iBinder;
             synchronized (consumers)
             {
                 Iterator<YCConsumer> consumerIterator = consumers.keySet().iterator();
                 while (consumerIterator.hasNext())
                 {
                     YCConsumer consumer = consumerIterator.next();
+                    consumer.onServiceConnect();
                     Boolean alreadyConnected = consumers.get(consumer).isConnected;
                     if (!alreadyConnected)
                     {

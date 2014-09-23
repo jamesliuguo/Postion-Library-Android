@@ -29,7 +29,6 @@ public class MyActivity extends Activity implements YCConsumer{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my);
-        debuglog(TAG,"activity creat");
         ycLocationManager.bind(this);
     }
 
@@ -69,7 +68,7 @@ public class MyActivity extends Activity implements YCConsumer{
     @Override
     public void onServiceConnect()
     {
-          ycLocationManager.startpostion();
+          debuglog(TAG,"location is running");
           ycLocationManager.setlocationlistener(new YCLocationListener()
           {
               @Override

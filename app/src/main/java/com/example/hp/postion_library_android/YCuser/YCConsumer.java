@@ -9,7 +9,7 @@ import android.content.ServiceConnection;
  */
 public interface YCConsumer
 {
-    /*当YCLocationService 经过经过算法定位后得到定位坐标后，就会在YCLocationManager中调用*/
+    /*当YCLocationService 运行后，就会在YCLocationManager中调用*/
     public void onServiceConnect();
 
     //    在YCLocationmanager中调用得到Activity或者Service的Context。重载函数
