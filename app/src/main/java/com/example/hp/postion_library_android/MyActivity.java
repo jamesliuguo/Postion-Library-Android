@@ -74,10 +74,12 @@ public class MyActivity extends Activity implements YCConsumer{
         ycLocationManager.setlocationlistener(new YCLocationListener()
         {
             @Override
-            public void YCGetLocation(int i)
+            public void YCGetLocation(YCLocation location)
             {
                 //debuglog(TAG,"get location:x="+location.getCoordinate().x+" y="+location.getCoordinate().y);
-                debuglog(TAG,"YCGetLocation location :"+i);            }
+                debuglog(TAG,"YCGetLocation location :Accuracy"+location.getAccuracy()+" X:"+location.getX()+" Y:"+location.getY());
+    ;
+            }
         });
 
     }

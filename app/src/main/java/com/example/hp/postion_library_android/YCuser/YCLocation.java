@@ -23,11 +23,30 @@ public class YCLocation
         accuracy = d;
     }
 
-    public PointF getCoordinate()
+    public void setPoint(float x,float y)
+    {
+        point = new PointF(x,y);
+    }
+    public void setPoint(PointF point)
+    {
+        this.point = point;
+    }
+    public void setAccuracy(double accuracy)
+    {
+        this.accuracy =accuracy;
+    }
+    public PointF getPoint()
     {
         return point;
     }
-
+    public float getX()
+    {
+        return point.x;
+    }
+    public float getY()
+    {
+        return point.y;
+    }
     public double getAccuracy()
     {
         return accuracy;

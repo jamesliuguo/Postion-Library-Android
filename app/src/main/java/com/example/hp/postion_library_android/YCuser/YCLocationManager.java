@@ -93,9 +93,9 @@ public class YCLocationManager
         this.mylistener = listener;
     }
 
-    public void called(int i)
+    public void called(YCLocation ycLocation)
     {
-        mylistener.YCGetLocation(i);
+        mylistener.YCGetLocation(ycLocation);
     }
     //开始更新定位坐标
     public void startpostion()
