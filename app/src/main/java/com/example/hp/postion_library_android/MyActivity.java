@@ -30,6 +30,7 @@ public class MyActivity extends Activity implements YCConsumer{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my);
         ycLocationManager.bind(this);
+
     }
 
     @Override
@@ -69,13 +70,14 @@ public class MyActivity extends Activity implements YCConsumer{
     public void onServiceConnect()
     {
           debuglog(TAG,"location is running");
-          ycLocationManager.setlocationlistener(new YCLocationListener()
-          {
-              @Override
-              public void YCGetLocation(YCLocation location)
-              {
-                  debuglog(TAG,"get location:x="+location.getCoordinate().x+" y="+location.getCoordinate().y);
-              }
-          });
+        ycLocationManager.setlocationlistener(new YCLocationListener()
+        {
+            @Override
+            public void YCGetLocation(int i)
+            {
+                //debuglog(TAG,"get location:x="+location.getCoordinate().x+" y="+location.getCoordinate().y);
+                debuglog(TAG,"YCGetLocation location :"+i);            }
+        });
+
     }
 }

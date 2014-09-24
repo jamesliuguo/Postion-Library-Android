@@ -95,6 +95,7 @@ public class YCLocationService extends Service implements IBeaconConsumer {
                 if(ycLocationManager!=null)
                 {
                     debuglog(TAG, "send to user");
+                    ycLocationManager.called(iBeacons.size());
                 }
             }
         });

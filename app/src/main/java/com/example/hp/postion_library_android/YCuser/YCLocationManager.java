@@ -56,6 +56,7 @@ public class YCLocationManager
                 Intent intent = new Intent(consumer.getApplicationContext(), YCLocationService.class);
                 consumer.bindService(intent, YCLocationServiceConnection, Context.BIND_AUTO_CREATE);
                 debuglog(TAG, "YCConsumer that has been bound is now:" + consumers.size());
+                consumer.onServiceConnect();
             }
         }
     }
@@ -88,12 +89,13 @@ public class YCLocationManager
 
     public void setlocationlistener(YCLocationListener listener)
     {
+        debuglog(TAG,"setlocationlistener");
         this.mylistener = listener;
     }
 
-    public void sendtouser(YCLocation location)
+    public void called(int i)
     {
-        mylistener.YCGetLocation(location);
+        mylistener.YCGetLocation(i);
     }
     //开始更新定位坐标
     public void startpostion()
@@ -140,7 +142,7 @@ public class YCLocationManager
                 while (consumerIterator.hasNext())
                 {
                     YCConsumer consumer = consumerIterator.next();
-                    consumer.onServiceConnect();
+                   // consumer.onServiceConnect();
                     Boolean alreadyConnected = consumers.get(consumer).isConnected;
                     if (!alreadyConnected)
                     {
