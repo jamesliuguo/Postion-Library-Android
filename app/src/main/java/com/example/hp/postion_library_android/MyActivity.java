@@ -18,6 +18,7 @@ import com.example.hp.postion_library_android.YCuser.YCLocationListener;
 import com.example.hp.postion_library_android.YCuser.YCLocationManager;
 import com.radiusnetworks.ibeacon.IBeaconConsumer;
 
+//版本测试
 //开发测试使用的临时Activity
 public class MyActivity extends Activity implements YCConsumer{
 
